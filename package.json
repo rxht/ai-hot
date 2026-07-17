@@ -1,0 +1,21 @@
+{
+  "name": "ai-hot",
+  "version": "1.0.0",
+  "description": "AI HOT 每日晨报生成系统：定时拉取 aihot 日报，生成液态玻璃风单文件 HTML，推送企业微信",
+  "scripts": {
+    "new": "node scripts/new.js",
+    "release": "node scripts/release.js"
+  },
+  "keywords": [
+    "ai",
+    "news",
+    "daily",
+    "wecom",
+    "dashboard"
+  ],
+  "author": "rxh<brf9577@163.com>",
+  "license": "ISC",
+  "engines": {
+    "node": ">=18"
+  }
+}

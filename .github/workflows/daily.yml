@@ -1,0 +1,48 @@
+name: AI HOT Daily Report
+
+on:
+  schedule:
+    # 北京时间 09:00 触发（AI HOT 日报约北京时间 08:00 生成）
+    # GitHub Actions cron 使用 UTC，北京时间 = UTC+8，故 09:00 = UTC 01:00
+    - cron: '0 1 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Build, notify (no push)
+        # CI 不走 release.js 内部的 git 推送（DEPLOY=off），由下方步骤统一提交 dist
+        env:
+          # WECOM_WEBHOOK 来自仓库 Secrets（私有加密变量，日志中脱敏），切勿改用 vars
+          WECOM_WEBHOOK: ${{ secrets.WECOM_WEBHOOK }}
+          SITE_BASE_URL: ${{ vars.SITE_BASE_URL }}
+          DEPLOY: 'off'
+        run: node scripts/release.js
+
+      - name: Commit & push dist
+        # 将生成的日报与归档提交回仓库；该推送会触发 pages.yml 完成 GitHub Pages 部署
+        # 提交身份统一用 GitHub Actions 机器人，避免硬编码个人邮箱导致与账户不匹配
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add dist
+          if git diff --cached --quiet; then
+            echo "无变更，跳过提交"
+          else
+            git commit -m "chore: AI HOT 日报 $(TZ=Asia/Shanghai date +%F)"
+            git push
+          fi
