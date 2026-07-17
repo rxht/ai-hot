@@ -25,7 +25,7 @@ jobs:
           node-version: '22'
 
       - name: Build, notify (no push)
-        # CI 不走 release.js 内部的 git 推送（DEPLOY=off），由下方步骤统一提交 dist
+        # CI 不走 release.js 内部的 git 推送（DEPLOY=off），由下方步骤统一提交 docs/
         env:
           # WECOM_WEBHOOK 来自仓库 Secrets（私有加密变量，日志中脱敏），切勿改用 vars
           WECOM_WEBHOOK: ${{ secrets.WECOM_WEBHOOK }}
@@ -33,13 +33,12 @@ jobs:
           DEPLOY: 'off'
         run: node scripts/release.js
 
-      - name: Commit & push dist
-        # 将生成的日报与归档提交回仓库；该推送会触发 pages.yml 完成 GitHub Pages 部署
-        # 提交身份统一用 GitHub Actions 机器人，避免硬编码个人邮箱导致与账户不匹配
+      - name: Commit & push docs
+        # 构建产物在 docs/（GitHub Pages 源目录 /docs）；提交后 GitHub Pages 自动部署。
         run: |
           git config user.name "rxht"
           git config user.email "brf9577@163.com"
-          git add dist
+          git add docs
           if git diff --cached --quiet; then
             echo "无变更，跳过提交"
           else

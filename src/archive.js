@@ -3,7 +3,9 @@
 const fs = require('fs');
 const path = require('path');
 
-const DIST = path.join(__dirname, '..', 'dist');
+const DIST = path.join(__dirname, '..', 'docs');
+// GitHub Pages 源设为分支的 /docs 目录，故构建产物直接输出到 docs/ 并提交；
+// archive.json 随 docs/ 一起提交，累计总数可跨日持久化。
 const ARCHIVE_FILE = path.join(DIST, 'archive.json');
 
 function ensureDist() {

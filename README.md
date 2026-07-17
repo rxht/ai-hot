@@ -14,7 +14,7 @@
 - **液态玻璃设计**：毛玻璃模糊、半透明层叠、柔和阴影、圆角；Apple 风格的视觉质感。
 - **浅 / 深色双主题**：自动跟随系统偏好，支持手动切换，选择通过 `localStorage` 持久化；且**首屏前即读取**，避免主题闪烁。
 - **晨报结构**：顶部 Hero（日期 + 总条数 + 五版块统计）→ 中部锚点导航（滚动高亮当前版块）→ 左侧分类速览 → 响应式卡片网格（**跨版块全局连续编号**）→ 页脚（当日条数 + 历史累计 + 数据来源）。
-- **归档与统计**：`dist/archive.json` 记录每期条数与历史累计总数；`dist/index.html` 提供往期列表与按日期检索入口。
+- **归档与统计**：`docs/archive.json` 记录每期条数与历史累计总数；`docs/index.html` 提供往期列表与按日期检索入口。
 - **企业微信推送**：发布完成后推送 markdown 摘要（标题、各版块条数、查看链接）。
 
 ---
@@ -28,13 +28,13 @@ ai-hot/
 │   ├── util.js            # 北京时间转换、60 字截断、HTML 转义、.env 加载
 │   ├── fetch-daily.js     # 调用 aihot 日报接口，含回退逻辑
 │   ├── generate-html.js   # 单文件 HTML 生成器 + 归档索引页生成器
-│   ├── archive.js         # 维护 dist/archive.json（每期条数 + 累计总数）
+│   ├── archive.js         # 维护 docs/archive.json（每期条数 + 累计总数）
 │   ├── build.js           # 编排：拉取→生成→归档→（通知）→（部署）
 │   └── notify.js          # 企业微信 Webhook markdown 推送
 ├── scripts/
 │   ├── new.js             # npm run new：仅本地生成
 │   └── release.js         # npm run release：完整发布（生成+通知+部署）
-├── dist/                  # 输出目录（生成的 HTML 与归档）
+├── docs/                  # 输出目录（GitHub Pages 源目录 /docs，生成的 HTML 与归档）
 │   ├── YYYY-MM-DD.html    # 每日晨报（单文件）
 │   ├── index.html         # 往期归档索引（支持日期检索）
 │   └── archive.json       # 归档元信息
@@ -60,13 +60,12 @@ cp .env.example .env      # 按需填写，不填也能本地生成
 npm run new               # 生成今日（或回退最近一期）日报
 ```
 
-打开 `dist/<日期>.html` 即可查看。
+打开 `docs/<日期>.html` 即可查看。
 
 ### 配置 `.env`
 
 | 变量 | 说明 | 必填 |
 | --- | --- | --- |
-| `WECOM_WEBHOOK` | 企业微信群机器人 Webhook 地址（群 → 群机器人 → 复制地址） | 推送时必填，否则静默跳过 |
 | `SITE_BASE_URL` | 日报访问基础地址，用于推送消息里的「查看链接」，如 `https://<用户>.github.io/ai-hot` | 推送带链接时建议填 |
 | `DEPLOY` | 本地 `release` 是否自动 git 推送：`on`（默认）/ `off` | 否 |
 
@@ -91,7 +90,7 @@ npm run release -- 2026-07-15    # 指定日期完整流程
 
 `release` 在数据拉取、HTML 生成、归档更新之后，会：
 1. 若配置了 `WECOM_WEBHOOK`，向企业微信群推送 markdown 摘要；
-2. 若 `DEPLOY !== off` 且当前为 git 仓库，将 `dist/` 提交并推送到远程。
+2. 若 `DEPLOY !== off` 且当前为 git 仓库，将 `docs/` 提交并推送到远程。
 
 > 指定历史日期时，若该日期日报不存在会直接报错（**不会**回退到其他日期），避免错位归档。
 
@@ -123,8 +122,8 @@ npm run release -- 2026-07-15    # 指定日期完整流程
 
 ## 🗂️ 归档与统计
 
-- 每生成一期，向 `dist/archive.json` 写入/更新该期记录（日期、标题、各版块条数、累计）。
-- `dist/index.html` 列出全部历史日报，并支持输入日期片段（如 `07-15` 或 `2026-07`）实时筛选。
+- 每生成一期，向 `docs/archive.json` 写入/更新该期记录（日期、标题、各版块条数、累计）。
+- `docs/index.html` 列出全部历史日报，并支持输入日期片段（如 `07-15` 或 `2026-07`）实时筛选。
 - 重新生成同一日期会覆盖该期，累计总数始终为各期之和。
 
 ---
@@ -148,17 +147,16 @@ npm run release -- 2026-07-15    # 指定日期完整流程
 
 ## ⏰ GitHub Actions 定时生成 + Pages 部署
 
-两个 workflow 协作完成「生成 → 部署」：
+GitHub Pages 源已设为分支的 **`/docs` 目录**（Settings → Pages → Deploy from a branch → 目录 `/docs`）。因此部署是**分支模式**：把 `docs/` 推到 `master` 后，GitHub Pages 自动发布，无需单独的 Actions 部署步骤。
 
-- `.github/workflows/daily.yml`（定时 / 手动）：每天**北京时间 09:00**（UTC `0 1 * * *`）生成日报，并把 `dist/` 提交推回 `master` 分支。
-- `.github/workflows/pages.yml`（Push 触发）：监听 `master` 分支下 `dist/**` 的变更，将 `dist/` 作为 Pages 产物部署到 GitHub Pages（采用官方 `actions/deploy-pages`）。
+- `.github/workflows/daily.yml`（定时 / 手动）：每天**北京时间 09:00**（UTC `0 1 * * *`）生成日报，并把 `docs/`（含 `archive.json` 累计总数）提交推回 `master` 分支 → GitHub Pages 自动部署。
 
-因此本地发布也会走 Actions 部署：
+因此本地发布也会触发部署：
 
-1. **定时**：`daily.yml` 生成并推送 `dist/` → 自动触发 `pages.yml` → 部署上线。
-2. **本地 `npm run release`**：`scripts/release.js` 在 `DEPLOY !== 'off'`（默认）时会把 `dist/` 推送到 `master` → 自动触发 `pages.yml` → 部署上线。
-   （`DEPLOY=off` 时只生成不推送，也就不会触发部署。）
-3. **手动**：Actions 页面选择 `AI HOT Daily Report` → `Run workflow`。
+1. **定时**：`daily.yml` 生成并推送 `docs/` → GitHub Pages 自动上线。
+2. **本地 `npm run release`**：`scripts/release.js` 在 `DEPLOY !== 'off'`（默认）时会把 `docs/` 推送到 `master` → 自动部署。
+   （`DEPLOY=off` 时只生成不推送，不触发部署。）
+3. **手动**：Actions 页面选择 `AI HOT Daily Report` → `Run workflow`；或本地 `npm run release`。
 
 ### 配置步骤
 
@@ -167,10 +165,10 @@ npm run release -- 2026-07-15    # 指定日期完整流程
      ⚠️ 务必放在 Secrets，切勿放在 Variables —— Variables 对所有有仓库读权限的人可见，会泄露机器人地址。
    - **Variables（可见变量）** 添加 `SITE_BASE_URL`（如 `https://<用户>.github.io/ai-hot`）。
      workflow 中读取方式：`WECOM_WEBHOOK: ${{ secrets.WECOM_WEBHOOK }}` / `SITE_BASE_URL: ${{ vars.SITE_BASE_URL }}`。
-2. 仓库 **Settings → Pages**：Source 选择 **GitHub Actions**（不再是「Deploy from a branch」）。
-3. 首次部署：手动跑一次 `daily.yml`，或本地执行 `npm run release`，把 `dist/` 推上 `master` 即可触发 `pages.yml` 完成部署。
+2. 仓库 **Settings → Pages**：Source 选择 **Deploy from a branch** → 分支 **`master`** → 目录 **`/docs`** → Save。
+3. 首次部署：手动跑一次 `daily.yml`（或本地 `npm run release`），把 `docs/` 推上 `master` 即自动发布。
 
-> 说明：归档状态（`archive.json` 累计总数）靠 `daily.yml` 把 `dist/` 提交回 `master` 来持久化；`pages.yml` 只负责把 `dist/` 部署为站点，不参与生成。
+> 说明：构建产物直接输出到 `docs/` 并提交（不再使用 `dist/`）；`archive.json` 随 `docs/` 一起提交，累计总数可跨日持久化。
 
 ---
 

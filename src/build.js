@@ -34,10 +34,11 @@ async function deployGit(date) {
     return;
   }
   try {
-    execSync('git add dist', { stdio: 'ignore' });
+    // 构建产物输出到 docs/（GitHub Pages 源目录），一并提交后由 GitHub Pages 自动部署
+    execSync('git add docs', { stdio: 'ignore' });
     execSync(`git commit -m "chore: AI HOT 日报 ${date}"`, { stdio: 'ignore' });
     execSync('git push', { stdio: 'ignore' });
-    console.log('[deploy] 已推送 dist 至远程');
+    console.log('[deploy] 已推送 docs/ 至远程');
   } catch (e) {
     console.log('[deploy] 推送未完成（可稍后手动推送）：', e.message);
   }
