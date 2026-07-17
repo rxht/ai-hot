@@ -37,8 +37,8 @@ jobs:
         # 将生成的日报与归档提交回仓库；该推送会触发 pages.yml 完成 GitHub Pages 部署
         # 提交身份统一用 GitHub Actions 机器人，避免硬编码个人邮箱导致与账户不匹配
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "rxht"
+          git config user.email "brf9577@163.com"
           git add dist
           if git diff --cached --quiet; then
             echo "无变更，跳过提交"

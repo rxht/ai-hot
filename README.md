@@ -150,13 +150,13 @@ npm run release -- 2026-07-15    # 指定日期完整流程
 
 两个 workflow 协作完成「生成 → 部署」：
 
-- `.github/workflows/daily.yml`（定时 / 手动）：每天**北京时间 09:00**（UTC `0 1 * * *`）生成日报，并把 `dist/` 提交推回 `main` 分支。
-- `.github/workflows/pages.yml`（Push 触发）：监听 `main` 分支下 `dist/**` 的变更，将 `dist/` 作为 Pages 产物部署到 GitHub Pages（采用官方 `actions/deploy-pages`）。
+- `.github/workflows/daily.yml`（定时 / 手动）：每天**北京时间 09:00**（UTC `0 1 * * *`）生成日报，并把 `dist/` 提交推回 `master` 分支。
+- `.github/workflows/pages.yml`（Push 触发）：监听 `master` 分支下 `dist/**` 的变更，将 `dist/` 作为 Pages 产物部署到 GitHub Pages（采用官方 `actions/deploy-pages`）。
 
 因此本地发布也会走 Actions 部署：
 
 1. **定时**：`daily.yml` 生成并推送 `dist/` → 自动触发 `pages.yml` → 部署上线。
-2. **本地 `npm run release`**：`scripts/release.js` 在 `DEPLOY !== 'off'`（默认）时会把 `dist/` 推送到 `main` → 自动触发 `pages.yml` → 部署上线。
+2. **本地 `npm run release`**：`scripts/release.js` 在 `DEPLOY !== 'off'`（默认）时会把 `dist/` 推送到 `master` → 自动触发 `pages.yml` → 部署上线。
    （`DEPLOY=off` 时只生成不推送，也就不会触发部署。）
 3. **手动**：Actions 页面选择 `AI HOT Daily Report` → `Run workflow`。
 
@@ -168,9 +168,9 @@ npm run release -- 2026-07-15    # 指定日期完整流程
    - **Variables（可见变量）** 添加 `SITE_BASE_URL`（如 `https://<用户>.github.io/ai-hot`）。
      workflow 中读取方式：`WECOM_WEBHOOK: ${{ secrets.WECOM_WEBHOOK }}` / `SITE_BASE_URL: ${{ vars.SITE_BASE_URL }}`。
 2. 仓库 **Settings → Pages**：Source 选择 **GitHub Actions**（不再是「Deploy from a branch」）。
-3. 首次部署：手动跑一次 `daily.yml`，或本地执行 `npm run release`，把 `dist/` 推上 `main` 即可触发 `pages.yml` 完成部署。
+3. 首次部署：手动跑一次 `daily.yml`，或本地执行 `npm run release`，把 `dist/` 推上 `master` 即可触发 `pages.yml` 完成部署。
 
-> 说明：归档状态（`archive.json` 累计总数）靠 `daily.yml` 把 `dist/` 提交回 `main` 来持久化；`pages.yml` 只负责把 `dist/` 部署为站点，不参与生成。
+> 说明：归档状态（`archive.json` 累计总数）靠 `daily.yml` 把 `dist/` 提交回 `master` 来持久化；`pages.yml` 只负责把 `dist/` 部署为站点，不参与生成。
 
 ---
 

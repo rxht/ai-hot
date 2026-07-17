@@ -33,7 +33,7 @@ ai-hot/
 │   └── release.js       # npm run release：生成 + 企微通知 + git 推送
 ├── dist/                # 输出目录（需提交进仓库，供归档持久化与 Pages 托管）
 ├── .github/workflows/
-│   ├── daily.yml        # 定时/手动：生成日报并 git 推送 dist 到 main
+│   ├── daily.yml        # 定时/手动：生成日报并 git 推送 dist 到 master
 │   └── pages.yml        # Push 触发：将 dist/ 部署为 GitHub Pages
 ├── .env.example         # 配置模板
 ├── package.json         # 仅两个脚本，零运行时依赖
@@ -45,7 +45,7 @@ ai-hot/
 aihot API ──fetch-daily──▶ build.js ──generate-html──▶ dist/YYYY-MM-DD.html
                                    ├─archive.js──────▶ dist/archive.json + dist/index.html
                                    ├─notify.js───────▶ 企业微信（仅 release）
-                                   └─deployGit───────▶ git push main ──▶ pages.yml ──▶ GitHub Pages
+                                   └─deployGit───────▶ git push master ──▶ pages.yml ──▶ GitHub Pages
 ```
 
 ---
@@ -58,7 +58,7 @@ aihot API ──fetch-daily──▶ build.js ──generate-html──▶ dist/
 | `npm run release [日期]` | 拉取→生成→归档→企微通知→`git push` dist | 是（push 触发 `pages.yml`） |
 | `daily.yml`（定时 北京09:00 / 手动） | CI 内 `DEPLOY=off` 仅生成+通知，再由 workflow 提交并推送 dist | 是（push 触发 `pages.yml`） |
 
-> 关键设计：`daily.yml` 与本地 `release` 都只负责「把 `dist/` 推到 `main`」；**真正的 Pages 部署统一由 `pages.yml` 完成**（Source=GitHub Actions）。两条路径收敛到同一个动作，避免重复部署逻辑。
+> 关键设计：`daily.yml` 与本地 `release` 都只负责「把 `dist/` 推到 `master`」；**真正的 Pages 部署统一由 `pages.yml` 完成**（Source=GitHub Actions）。两条路径收敛到同一个动作，避免重复部署逻辑。
 
 ---
 
@@ -98,7 +98,7 @@ aihot API ──fetch-daily──▶ build.js ──generate-html──▶ dist/
    git add -A
    git commit -m "init: AI HOT 日报系统"
    git remote add origin <你的仓库地址>
-   git push -u origin main
+   git push -u origin master
    ```
 2. **仓库 Settings → Secrets and variables**
    - **Secrets**：`WECOM_WEBHOOK`（群机器人地址，私有脱敏）
