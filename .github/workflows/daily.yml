@@ -24,8 +24,9 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Build, notify (no push)
-        # CI 不走 release.js 内部的 git 推送（DEPLOY=off），由下方步骤统一提交 docs/
+      - name: 生成日报并通知（不部署）
+        id: generate
+        # 先生成当日日报到 docs/ 并推送企微通知；CI 不走 release.js 内部的 git 推送（DEPLOY=off）
         env:
           # WECOM_WEBHOOK 来自仓库 Secrets（私有加密变量，日志中脱敏），切勿改用 vars
           WECOM_WEBHOOK: ${{ secrets.WECOM_WEBHOOK }}
@@ -33,15 +34,21 @@ jobs:
           DEPLOY: 'off'
         run: node scripts/release.js
 
-      - name: Commit & push docs
-        # 构建产物在 docs/（GitHub Pages 源目录 /docs）；提交后 GitHub Pages 自动部署。
+      - name: 部署（仅生成成功后提交 docs/ → Pages 自动发布）
+        # 依赖上一步「生成日报」成功：生成失败则本步不执行，绝不会部署未生成的日报
+        if: success()
         run: |
           git config user.name "rxht"
           git config user.email "brf9577@163.com"
+          TODAY=$(TZ=Asia/Shanghai date +%F)
+          if [ ! -f "docs/${TODAY}.html" ]; then
+            echo "⚠️ 今日日报 docs/${TODAY}.html 未生成（当日数据可能尚未就绪，已回退到最近一期），跳过部署以免把旧内容当作今日发布"
+            exit 0
+          fi
           git add docs
           if git diff --cached --quiet; then
-            echo "无变更，跳过提交"
+            echo "无变更，跳过部署"
           else
-            git commit -m "chore: AI HOT 日报 $(TZ=Asia/Shanghai date +%F)"
+            git commit -m "chore: AI HOT 日报 ${TODAY}"
             git push
           fi
