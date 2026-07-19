@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>AI HOT 日报归档</title>
+<title>AI HOT 日报 · 2026-07-19</title>
 <script>
 /* 首屏前先读取 localStorage，若存在主题类型则立即应用，避免主题闪烁 */
 (function(){try{var t=localStorage.getItem('aihot-theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();
@@ -155,33 +155,89 @@ body{
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <div class="wrap">
 
-  <header class="arc-hero glass">
-    <h1>🗂️ AI HOT 日报归档</h1>
-    <p>共 2 期 · 历史累计 20 条 · 按日期检索往期晨报</p>
-    <div class="search"><input id="arcSearch" type="text" placeholder="输入日期检索，例如 2026-07-18 或 07-18" autocomplete="off"></div>
+  
+  <header class="hero glass">
+    <div class="hero-top">
+      <div>
+        <div class="hero-eyebrow">AI HOT · 每日晨报</div>
+        <div class="hero-date">2026年7月19日</div>
+        <div class="hero-week">星期日</div>
+        
+      </div>
+      <div class="hero-right">
+        <div class="total-box">
+          <div class="total-num">2</div>
+          <div class="total-label">条今日动态</div>
+        </div>
+      </div>
+    </div>
+    <div class="stat-row"><div class="stat"><span class="ico">🚀</span><span class="lab">模型发布/更新</span><span class="cnt">0</span></div><div class="stat"><span class="ico">🛠️</span><span class="lab">产品发布/更新</span><span class="cnt">1</span></div><div class="stat"><span class="ico">🌐</span><span class="lab">行业动态</span><span class="cnt">0</span></div><div class="stat"><span class="ico">📄</span><span class="lab">论文研究</span><span class="cnt">0</span></div><div class="stat"><span class="ico">💡</span><span class="lab">技巧与观点</span><span class="cnt">1</span></div></div>
+    <div class="gen-note">数据生成于 北京时间 今天早上8:00 · 来源 aihot.virxact.com</div>
   </header>
-  <ul class="arc-list" id="arcList"><li class="arc-item"><a href="2026-07-19.html" rel="noopener noreferrer"><span class="arc-date">2026-07-19</span><span class="arc-count">2 条</span></a></li><li class="arc-item"><a href="2026-07-18.html" rel="noopener noreferrer"><span class="arc-date">2026-07-18</span><span class="arc-count">18 条</span></a></li></ul>
-  <script>
-  (function(){
-    var inp=document.getElementById('arcSearch');
-    var list=document.getElementById('arcList');
-    if(!inp||!list)return;
-    inp.addEventListener('input',function(){
-      var q=inp.value.trim();
-      var items=list.querySelectorAll('.arc-item');
-      var vis=0;
-      items.forEach(function(it){
-        var t=it.textContent||'';
-        var ok=!q||t.indexOf(q)>=0;
-        it.style.display=ok?'':'none';
-        if(ok)vis++;
-      });
-      var empty=document.getElementById('arcEmpty');
-      if(vis===0&&!empty){empty=document.createElement('p');empty.id='arcEmpty';empty.className='arc-empty';empty.textContent='没有匹配的日报';list.parentNode.insertBefore(empty,list.nextSibling);}
-      else if(vis>0&&empty){empty.remove();}
-    });
-  })();
-  </script>
+
+  <nav class="anchor-nav glass"><a href="#sec-models" data-nav>🚀 模型发布/更新</a><a href="#sec-products" data-nav>🛠️ 产品发布/更新</a><a href="#sec-industry" data-nav>🌐 行业动态</a><a href="#sec-paper" data-nav>📄 论文研究</a><a href="#sec-tip" data-nav>💡 技巧与观点</a></nav>
+
+  <div class="layout">
+    <aside class="sidebar glass">
+      <h4>版块速览</h4>
+      <a class="side-link" href="#sec-models"><span class="ico">🚀</span>模型发布/更新<span class="n">0</span></a><a class="side-link" href="#sec-products"><span class="ico">🛠️</span>产品发布/更新<span class="n">1</span></a><a class="side-link" href="#sec-industry"><span class="ico">🌐</span>行业动态<span class="n">0</span></a><a class="side-link" href="#sec-paper"><span class="ico">📄</span>论文研究<span class="n">0</span></a><a class="side-link" href="#sec-tip"><span class="ico">💡</span>技巧与观点<span class="n">1</span></a>
+      <div class="side-arc"><a href="index.html" rel="noopener noreferrer">🗂️ 往期日报归档</a></div>
+    </aside>
+    <main>
+      
+    <section class="block glass" id="sec-models" data-spy>
+      <div class="block-head">
+        <h2><span class="ico">🚀</span>模型发布/更新</h2>
+        <span class="cnt">0 条</span>
+      </div>
+      <p class="empty">本版块今日暂无更新</p>
+    </section>
+    <section class="block glass" id="sec-products" data-spy>
+      <div class="block-head">
+        <h2><span class="ico">🛠️</span>产品发布/更新</h2>
+        <span class="cnt">1 条</span>
+      </div>
+      <div class="grid">
+    <article class="card" id="item-1">
+      <div class="card-top"><span class="num">1</span><span class="chips"><span class="chip">Claude Code：GitHub Releases（RSS）</span></span></div>
+      <h3 class="card-title"><a href="https://github.com/anthropics/claude-code/releases/tag/v2.1.214" target="_blank" rel="noopener noreferrer">Claude Code v2.1.214 发布：修复权限绕过、添加 EndConversation 工具与多项 Bash 权限检查改进</a></h3>
+      <p class="card-sum">Claude Code v2.1.214 修复了 Windows PowerShell 5.1 中的权限检查绕过漏洞，以…</p>
+    </article></div>
+    </section>
+    <section class="block glass" id="sec-industry" data-spy>
+      <div class="block-head">
+        <h2><span class="ico">🌐</span>行业动态</h2>
+        <span class="cnt">0 条</span>
+      </div>
+      <p class="empty">本版块今日暂无更新</p>
+    </section>
+    <section class="block glass" id="sec-paper" data-spy>
+      <div class="block-head">
+        <h2><span class="ico">📄</span>论文研究</h2>
+        <span class="cnt">0 条</span>
+      </div>
+      <p class="empty">本版块今日暂无更新</p>
+    </section>
+    <section class="block glass" id="sec-tip" data-spy>
+      <div class="block-head">
+        <h2><span class="ico">💡</span>技巧与观点</h2>
+        <span class="cnt">1 条</span>
+      </div>
+      <div class="grid">
+    <article class="card" id="item-2">
+      <div class="card-top"><span class="num">2</span><span class="chips"><span class="chip">TechCrunch：AI（RSS）</span></span></div>
+      <h3 class="card-title"><a href="https://techcrunch.com/2026/07/17/neil-rimer-thinks-the-ai-money-is-coming-back-out" target="_blank" rel="noopener noreferrer">Index Ventures 联合创始人 Neil Rimer 认为 AI 财富将面临“再分配”</a></h3>
+      <p class="card-sum">Index Ventures 联合创始人 Neil Rimer 表示，围绕 AI 积累的巨额财富将面临“某种形式的再分配…</p>
+    </article></div>
+    </section>
+      
+    </main>
+  </div>
+
+  <footer class="footer glass">
+    <div class="big">今日 2 条 · 历史累计 20 条</div>
+    <div>数据来源 <a href="https://aihot.virxact.com" target="_blank" rel="noopener noreferrer">aihot.virxact.com</a> · 本页为自动生成的每日 AI 晨报</div>
+  </footer>
 </div>
 <button class="theme-btn theme-fab" id="themeToggle" title="切换浅色 / 深色">🌙</button>
 <script>
