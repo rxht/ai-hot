@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI HOT 日报 · 2026-07-21</title>
+<script>
+/* 首屏前先读取 localStorage，若存在主题类型则立即应用，避免主题闪烁 */
+(function(){try{var t=localStorage.getItem('aihot-theme');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();
+</script>
+<style>
+:root{
+  --bg1:#eef2ff; --bg2:#fce7f3; --bg3:#e0f2fe; --bg4:#ede9fe;
+  --glass:rgba(255,255,255,0.55);
+  --glass-strong:rgba(255,255,255,0.72);
+  --border:rgba(255,255,255,0.65);
+  --text:#1f2430; --dim:#5b6472; --faint:#8a93a3;
+  --accent:#6366f1; --accent2:#8b5cf6;
+  --chip:rgba(99,102,241,0.12); --chip-text:#4f46e5;
+  --shadow:0 12px 40px rgba(31,38,80,0.16);
+  --radius:22px;
+}
+/* 未手动设置时自动跟随系统偏好 */
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg1:#0b1020; --bg2:#1a1033; --bg3:#06283a; --bg4:#0f172a;
+    --glass:rgba(28,32,48,0.45);
+    --glass-strong:rgba(30,35,54,0.62);
+    --border:rgba(255,255,255,0.12);
+    --text:#e8ebf2; --dim:#a4adbf; --faint:#6b7488;
+    --accent:#818cf8; --accent2:#a78bfa;
+    --chip:rgba(129,140,248,0.18); --chip-text:#c7ccff;
+    --shadow:0 14px 44px rgba(0,0,0,0.45);
+  }
+}
+html[data-theme="dark"]{
+  --bg1:#0b1020; --bg2:#1a1033; --bg3:#06283a; --bg4:#0f172a;
+  --glass:rgba(28,32,48,0.45);
+  --glass-strong:rgba(30,35,54,0.62);
+  --border:rgba(255,255,255,0.12);
+  --text:#e8ebf2; --dim:#a4adbf; --faint:#6b7488;
+  --accent:#818cf8; --accent2:#a78bfa;
+  --chip:rgba(129,140,248,0.18); --chip-text:#c7ccff;
+  --shadow:0 14px 44px rgba(0,0,0,0.45);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  color:var(--text); min-height:100vh; line-height:1.55; position:relative; overflow-x:hidden;
+  background:linear-gradient(135deg,var(--bg1),var(--bg2) 40%,var(--bg3) 75%,var(--bg4));
+  transition:background .6s ease,color .4s ease;
+}
+.blob{position:fixed;border-radius:50%;filter:blur(70px);opacity:.55;z-index:0;pointer-events:none;animation:float 18s ease-in-out infinite}
+.blob.b1{width:46vw;height:46vw;left:-12vw;top:-10vw;background:radial-gradient(circle,#8b5cf6,transparent 70%)}
+.blob.b2{width:40vw;height:40vw;right:-10vw;top:8vw;background:radial-gradient(circle,#22d3ee,transparent 70%);animation-delay:-6s}
+.blob.b3{width:38vw;height:38vw;left:20vw;bottom:-16vw;background:radial-gradient(circle,#f472b6,transparent 70%);animation-delay:-11s}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(3vw,-3vh) scale(1.08)}}
+.glass{background:var(--glass);backdrop-filter:blur(22px) saturate(180%);-webkit-backdrop-filter:blur(22px) saturate(180%);border:1px solid var(--border);box-shadow:var(--shadow);border-radius:var(--radius)}
+.wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:22px 20px 60px}
+
+/* Hero */
+.hero{padding:30px 32px;margin-bottom:18px;position:relative;overflow:hidden}
+.hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.hero-eyebrow{font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.hero-date{font-size:30px;font-weight:800;margin-top:4px;letter-spacing:.5px}
+.hero-week{font-size:15px;color:var(--dim);font-weight:600}
+.hero-lead{margin-top:12px;color:var(--dim);font-size:14px;max-width:720px}
+.notice{margin-bottom:18px;padding:13px 18px;color:var(--accent2);font-size:13.5px;font-weight:600;border-left:4px solid var(--accent2)}
+.hero-right{display:flex;align-items:center;gap:14px}
+.total-box{text-align:center;padding:6px 18px}
+.total-num{font-size:42px;font-weight:800;background:linear-gradient(120deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+.total-label{font-size:12px;color:var(--dim);margin-top:4px;letter-spacing:.05em}
+.theme-btn{cursor:pointer;border:1px solid var(--border);background:var(--glass-strong);color:var(--text);width:46px;height:46px;border-radius:14px;font-size:20px;display:flex;align-items:center;justify-content:center;transition:transform .2s,background .3s}
+.theme-btn:hover{transform:translateY(-2px)}
+/* 悬浮切换按钮，所有页面共用，避免与 Hero 内按钮重复 */
+.theme-fab{position:fixed;right:18px;bottom:18px;z-index:60;box-shadow:var(--shadow)}
+.stat-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.stat{display:flex;align-items:center;gap:9px;padding:9px 15px;border-radius:14px;background:var(--glass-strong);border:1px solid var(--border)}
+.stat .ico{font-size:18px}
+.stat .lab{font-size:13px;color:var(--dim);font-weight:600}
+.stat .cnt{font-size:15px;font-weight:800;color:var(--text)}
+.gen-note{margin-top:16px;font-size:12.5px;color:var(--faint)}
+
+/* 锚点导航 */
+.anchor-nav{position:sticky;top:12px;z-index:20;display:flex;gap:6px;padding:9px 10px;margin-bottom:18px;overflow-x:auto}
+.anchor-nav a{white-space:nowrap;text-decoration:none;color:var(--dim);font-size:13.5px;font-weight:600;padding:8px 15px;border-radius:12px;transition:all .25s;border:1px solid transparent}
+.anchor-nav a:hover{color:var(--text);background:var(--glass-strong)}
+.anchor-nav a.active{color:#fff;background:linear-gradient(120deg,var(--accent),var(--accent2));border-color:transparent;box-shadow:0 6px 18px rgba(99,102,241,.35)}
+
+/* 布局 */
+.layout{display:grid;grid-template-columns:212px 1fr;gap:22px;align-items:start}
+.sidebar{position:sticky;top:78px;padding:18px 16px}
+.sidebar h4{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--faint);margin-bottom:10px}
+.side-link{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--dim);font-size:14px;font-weight:600;padding:9px 12px;border-radius:12px;transition:all .2s;margin-bottom:4px}
+.side-link:hover{color:var(--text);background:var(--glass-strong)}
+.side-link .ico{font-size:16px}
+.side-link .n{margin-left:auto;font-size:12px;color:var(--faint);background:var(--chip);padding:1px 8px;border-radius:8px}
+.side-arc{margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+.side-arc a{display:block;text-decoration:none;color:var(--accent);font-size:13px;font-weight:700;padding:9px 12px;border-radius:12px;background:var(--chip)}
+.side-arc a:hover{background:var(--glass-strong)}
+
+/* 版块 */
+.block{padding:22px 24px;margin-bottom:18px;scroll-margin-top:84px}
+.block-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.block-head h2{font-size:19px;font-weight:800;display:flex;align-items:center;gap:10px}
+.block-head .ico{font-size:20px}
+.block-head .cnt{font-size:13px;font-weight:700;color:var(--accent);background:var(--chip);padding:3px 12px;border-radius:10px}
+.empty{color:var(--faint);font-size:14px;padding:8px 2px}
+
+/* 卡片网格 */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.card{padding:16px 17px;border-radius:18px;background:var(--glass-strong);border:1px solid var(--border);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;display:flex;flex-direction:column;gap:9px;position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:0;transition:opacity .25s}
+.card:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(31,38,80,.22);border-color:var(--accent)}
+.card:hover::before{opacity:1}
+.card-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.card-top .chips{display:flex;gap:6px;align-items:center;min-width:0}
+.chip-time{color:var(--faint)}
+.num{font-size:13px;font-weight:800;color:var(--accent);background:var(--chip);min-width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;border-radius:9px}
+.chip{font-size:11.5px;font-weight:700;color:var(--chip-text);background:var(--chip);padding:3px 10px;border-radius:9px;max-width:70%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card-title{font-size:15px;font-weight:700;line-height:1.45}
+.card-title a{color:var(--text);text-decoration:none;transition:color .2s}
+.card-title a:hover{color:var(--accent)}
+.card-sum{font-size:13px;color:var(--dim);line-height:1.5}
+
+/* 页脚 */
+.footer{margin-top:8px;padding:22px 26px;text-align:center;color:var(--dim);font-size:13px}
+.footer .big{font-size:16px;font-weight:800;color:var(--text);margin-bottom:6px}
+.footer a{color:var(--accent);text-decoration:none;font-weight:600}
+
+/* 归档页 */
+.arc-hero{padding:28px 30px;margin-bottom:18px}
+.arc-hero h1{font-size:26px;font-weight:800}
+.arc-hero p{color:var(--dim);font-size:14px;margin-top:6px}
+.search{margin:16px 0 8px;display:flex;gap:10px}
+.search input{flex:1;padding:12px 16px;border-radius:14px;border:1px solid var(--border);background:var(--glass-strong);color:var(--text);font-size:14px;outline:none}
+.search input:focus{border-color:var(--accent)}
+.arc-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.arc-item a{display:flex;align-items:center;justify-content:space-between;text-decoration:none;color:var(--text);padding:15px 18px;border-radius:16px;background:var(--glass-strong);border:1px solid var(--border);transition:transform .2s,border-color .2s}
+.arc-item a:hover{transform:translateY(-3px);border-color:var(--accent)}
+.arc-date{font-weight:800;font-size:15px}
+.arc-count{font-size:12px;color:var(--accent);background:var(--chip);padding:3px 10px;border-radius:9px;font-weight:700}
+.arc-empty{color:var(--faint);padding:20px;text-align:center}
+
+@media (max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .hero-date{font-size:25px}
+  .total-num{font-size:34px}
+}
+</style>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+<div class="wrap">
+
+  
+  <header class="hero glass">
+    <div class="hero-top">
+      <div>
+        <div class="hero-eyebrow">AI HOT · 每日晨报</div>
+        <div class="hero-date">2026年7月21日</div>
+        <div class="hero-week">星期二</div>
+        
+      </div>
+      <div class="hero-right">
+        <div class="total-box">
+          <div class="total-num">22</div>
+          <div class="total-label">条今日动态</div>
+        </div>
+      </div>
+    </div>
+    <div class="stat-row"><div class="stat"><span class="ico">🚀</span><span class="lab">模型发布/更新</span><span class="cnt">4</span></div><div class="stat"><span class="ico">🛠️</span><span class="lab">产品发布/更新</span><span class="cnt">7</span></div><div class="stat"><span class="ico">🌐</span><span class="lab">行业动态</span><span class="cnt">3</span></div><div class="stat"><span class="ico">📄</span><span class="lab">论文研究</span><span class="cnt">3</span></div><div class="stat"><span class="ico">💡</span><span class="lab">技巧与观点</span><span class="cnt">5</span></div></div>
+    <div class="gen-note">数据生成于 北京时间 今天早上8:00 · 来源 aihot.virxact.com</div>
+  </header>
+
+  <nav class="anchor-nav glass"><a href="#sec-models" data-nav>🚀 模型发布/更新</a><a href="#sec-products" data-nav>🛠️ 产品发布/更新</a><a href="#sec-industry" data-nav>🌐 行业动态</a><a href="#sec-paper" data-nav>📄 论文研究</a><a href="#sec-tip" data-nav>💡 技巧与观点</a></nav>
+
+  <div class="layout">
+    <aside class="sidebar glass">
+      <h4>版块速览</h4>
+      <a class="side-link" href="#sec-models"><span class="ico">🚀</span>模型发布/更新<span class="n">4</span></a><a class="side-link" href="#sec-products"><span class="ico">🛠️</span>产品发布/更新<span class="n">7</span></a><a class="side-link" href="#sec-industry"><span class="ico">🌐</span>行业动态<span class="n">3</span></a><a class="side-link" href="#sec-paper"><span class="ico">📄</span>论文研究<span class="n">3</span></a><a class="side-link" href="#sec-tip"><span class="ico">💡</span>技巧与观点<span class="n">5</span></a>
+      <div class="side-arc"><a href="index.html" rel="noopener noreferrer">🗂️ 往期日报归档</a></div>
+    </aside>
+    <main>
+      
+    <section class="block glass" id="sec-models" data-spy>
+      <div class="block-head">
+        <h2><span class="ico">🚀</span>模型发布/更新</h2>
+        <span class="cnt">4 条</span>
+      </div>
+      <div class="grid">
+    <article class="card" id="item-1">
+      <div class="card-top"><span class="num">1</span><span class="chips"><span class="chip">公众号：面壁智能（MiniCPM）</span></span></div>
+      <h3 class="card-title"><a href="https://mp.weixin.qq.com/s/KwBAC8TFa846WFj-DHrgIQ" target="_blank" rel="noopener noreferrer">面壁智能发布首个具身智能成果 MiniCPM-Robot 系列模型，含 1.5B VLA 与 0.9B 跟踪模型</a></h3>
+      <p class="card-sum">面壁智能联合 OpenBMB 发布并开源 MiniCPM-Robot 系列，包括通用 VLA 模型 MiniCPM-Ro…</p>
+    </article>
+    <article class="card" id="item-2">
+      <div class="card-top"><span class="num">2</span><span class="chips"><span class="chip">Hugging Face：Blog（RSS）</span></span></div>
+      <h3 class="card-title"><a href="https://huggingface.co/blog/nvidia/cosmos3edge" target="_blank" rel="noopener noreferrer">NVIDIA 发布 Cosmos 3 Edge：4B 参数开源世界模型，为机器人及边缘 AI 提供实时推理与动作生成</a></h3>
+      <p class="card-sum">NVIDIA 在 Hugging Face 上开源了 Cosmos 3 Edge，一个 40 亿参数的世界模型，旨在帮助…</p>
+    </article>
+    <article class="card" id="item-3">
+      <div class="card-top"><span class="num">3</span><span class="chips"><span class="chip">公众号：通义实验室（千问）</span></span></div>
+      <h3 class="card-title"><a href="https://mp.weixin.qq.com/s/INvrqTrWLMm2WCLIqhqTrg" target="_blank" rel="noopener noreferrer">通义实验室发布 Qwen-Audio-3.0-TTS 实时语音合成模型</a></h3>
+      <p class="card-sum">通义实验室发布 Qwen-Audio-3.0-TTS，含 Flash（首包延迟约300ms）和 Plus 两个版本。Pl…</p>
+    </article>
+    <article class="card" id="item-4">
+      <div class="card-top"><span class="num">4</span><span class="chips"><span class="chip">IT之家（RSS）</span></span></div>
+      <h3 class="card-title"><a href="https://www.ithome.com/0/979/017.htm" target="_blank" rel="noopener noreferrer">上海科学智能研究院开放科学多模态基础模型“神珍”</a></h3>
+      <p class="card-sum">上海科学智能研究院开放科学多模态基础模型“神珍”，总参数约110亿，可处理DNA、RNA、蛋白质、小分子、地球系统和医学…</p>
+    </article></div>
+    </section>
+    <section class="block glass" id="sec-products" data-spy>
+      <div class="block-head">
+        <h2><span class="ico">🛠️</span>产品发布/更新</h2>
+        <span class="cnt">7 条</span>
+      </div>
+      <div class="grid">
+    <article class="card" id="item-5">
+      <div class="card-top"><span class="num">5</span><span class="chips"><span class="chip">Hacker News 热门（buzzing.cc 中文翻译）</span></span></div>
+      <h3 class="card-title"><a href="https://github.com/Saivineeth147/lora-speedrun" target="_blank" rel="noopener noreferrer">LoRA Speedrun 公开排行榜：6分05秒微调Qwen2.5-1.5B达GSM8K 61.1%准确率</a></h3>
+      <p class="card-sum">LoRA Speedrun项目推出公开排行榜，在固定硬件（单张L40S）上比拼Qwen2.5-1.5B的微调运行时间。当…</p>
+    </article>
+    <article class="card" id="item-6">
+      <div class="card-top"><span class="num">6</span><span class="chips"><span class="chip">xAI：News（网页）</span></span></div>
+      <h3 class="card-title"><a href="https://x.ai/news/introducing-excel-addin" target="_blank" rel="noopener noreferrer">Grok for Excel 发布：在 Microsoft Excel 中用自然语言提问、写公式和运行场景</a></h3>
+      <p class="card-sum">xAI 将 Grok 引入 Microsoft Excel，推出免费 Microsoft 365 加载项。用户可在工作表…</p>
+    </article>
+    <article class="card" id="item-7">
+      <div class="card-top"><span class="num">7</span><span class="chips"><span class="chip">公众号：小红书技术（dots.llm）</span></span></div>
+      <h3 class="card-title"><a href="https://mp.weixin.qq.com/s/rAoF65ywi5trWbI-heJieg" target="_blank" rel="noopener noreferrer">小红书与北大开源 UltraEP：面向大规模 MoE 训推的实时负载均衡方案</a></h3>
+      <p class="card-sum">小红书与北大提出 UltraEP，首次将基于精确路由信息的实时负载均衡引入生产系统，在每个 microbatch 和每一…</p>
+    </article>
+    <article class="card" id="item-8">
+      <div class="card-top"><span class="num">8</span><span class="chips"><span class="chip">X：Replit (@Replit)</span></span></div>
+      <h3 class="card-title"><a href="https://x.com/Replit/status/2079235154485109114" target="_blank" rel="noopener noreferrer">Replit 新统一工具栏集成数据库与双因素认证</a></h3>
+      <p class="card-sum">需要数据库？双因素认证？SEO 扫描器？ 你的项目所需的一切现在都可以通过我们新的统一工具栏触手可及。</p>
+    </article>
+    <article class="card" id="item-9">
+      <div class="card-top"><span class="num">9</span><span class="chips"><span class="chip">Cursor Blog</span></span></div>
+      <h3 class="card-title"><a href="https://cursor.com/blog/agent-swarm-model-economics" target="_blank" rel="noopener noreferrer">Cursor 测试新型 AI 智能体集群：规划者+执行者分工，4小时通过80% SQL测试</a></h3>
+      <p class="card-sum">Cursor 测试了新型 AI 智能体集群，将任务分解为规划者（使用最强模型）和执行者（使用快速廉价模型）。使用 Gro…</p>
+    </article>
+    <article class="card" id="item-10">
+      <div class="card-top"><span class="num">10</span><span class="chips"><span class="chip">Google Developers Blog（RSS）</span></span></div>
+      <h3 class="card-title"><a href="https://developers.googleblog.com/run-ray-on-tpu-part-1-the-foundations" target="_blank" rel="noopener noreferrer">Ray 2.55 正式支持 Google Cloud TPU，通过 KubeRay 自动编排多主机切片</a></h3>
+      <p class="card-sum">Ray 2.55 首次为 Google Cloud TPU 提供一等支持，开发者可通过 Ray 任务与 Actor AP…</p>
+    </article>
+    <article class="card" id="item-11">
+      <div class="card-top"><span class="num">11</span><span class="chips"><span class="chip">Claude Code：GitHub Releases（RSS）</span></span></div>
+      <h3 class="card-title"><a href="https://github.com/anthropics/claude-code/releases/tag/v2.1.216" target="_blank" rel="noopener noreferrer">Claude Code v2.1.216 发布：修复长会话卡顿与多项 Agent 行为问题</a></h3>
+      <p class="card-sum">Claude Code v2.1.216 修复了长会话中消息归一化成本随轮次二次增长导致的数秒停顿问题，并修正了 OAu…</p>
+    </article></div>
+    </section>
+    <section class="block glass" id="sec-industry" data-spy>
+      <div class="block-head">
+        <h2><span class="ico">🌐</span>行业动态</h2>
+        <span class="cnt">3 条</span>
+      </div>
+      <div class="grid">
+    <article class="card" id="item-12">
+      <div class="card-top"><span class="num">12</span><span class="chips"><span class="chip">The Decoder：AI News（RSS）</span></span></div>
+      <h3 class="card-title"><a href="https://the-decoder.com/district-9-director-neill-blomkamp-releases-first-short-film-made-entirely-with-ai-video-generation" target="_blank" rel="noopener noreferrer">《第九区》导演Neill Blomkamp发布首部完全由AI生成的短片《Nightborne》</a></h3>
+      <p class="card-sum">Neill Blomkamp发布了13分钟科幻恐怖短片《Nightborne》，完全使用Seedance 2.0视频生成…</p>
+    </article>
+    <article class="card" id="item-13">
+      <div class="card-top"><span class="num">13</span><span class="chips"><span class="chip">The Decoder：AI News（RSS）</span></span></div>
+      <h3 class="card-title"><a href="https://the-decoder.com/hugging-face-says-an-ai-agent-hacked-its-infrastructure-and-it-used-ai-to-fight-back" target="_blank" rel="noopener noreferrer">Hugging Face 遭自主AI智能体入侵，用AI工具完成数小时取证分析</a></h3>
+      <p class="card-sum">Hugging Face 披露其部分生产基础设施遭一个自主AI智能体系统入侵，攻击者通过恶意数据集利用数据处理管道中的代…</p>
+    </article>
+    <article class="card" id="item-14">
+      <div class="card-top"><span class="num">14</span><span class="chips"><span class="chip">Hacker News 热门（buzzing.cc 中文翻译）</span></span></div>
+      <h3 class="card-title"><a href="https://ollama.com/blog/all-aboard-open-models" target="_blank" rel="noopener noreferrer">Ollama 获 8800 万美元融资，加速开放模型生态发展</a></h3>
+      <p class="card-sum">Ollama 宣布完成 8800 万美元融资，由 Benchmark、Theory Ventures 和 8VC 等领投…</p>
+    </article></div>
+    </section>
+    <section class="block glass" id="sec-paper" data-spy>
+      <div class="block-head">
+        <h2><span class="ico">📄</span>论文研究</h2>
+        <span class="cnt">3 条</span>
+      </div>
+      <div class="grid">
+    <article class="card" id="item-15">
+      <div class="card-top"><span class="num">15</span><span class="chips"><span class="chip">Hacker News 热门（buzzing.cc 中文翻译）</span></span></div>
+      <h3 class="card-title"><a href="https://unslop.run/blog/measuring-ai-writing-on-arxiv" target="_blank" rel="noopener noreferrer">ArXiv上超30%新投稿文本特征与AI撰写一致</a></h3>
+      <p class="card-sum">一项对12,750篇ArXiv论文全文的检测显示，截至2026年7月，约32%的新投稿文本特征与AI撰写一致，该比例在2…</p>
+    </article>
+    <article class="card" id="item-16">
+      <div class="card-top"><span class="num">16</span><span class="chips"><span class="chip">Apple Machine Learning Research（RSS）</span></span></div>
+      <h3 class="card-title"><a href="https://machinelearning.apple.com/research/length-value-model" target="_blank" rel="noopener noreferrer">Apple 提出 Length Value Model (LenVM)：token 级长度建模框架</a></h3>
+      <p class="card-sum">Apple 研究团队提出 LenVM，一种在每步解码时预测剩余生成长度的 token 级框架，将长度建模转化为无需标注的…</p>
+    </article>
+    <article class="card" id="item-17">
+      <div class="card-top"><span class="num">17</span><span class="chips"><span class="chip">Apple Machine Learning Research（RSS）</span></span></div>
+      <h3 class="card-title"><a href="https://machinelearning.apple.com/research/lvsum-video-summarization" target="_blank" rel="noopener noreferrer">LVSum 基准：评估多模态大模型的长视频时间感知摘要能力</a></h3>
+      <p class="card-sum">Apple 推出 LVSum，一个含细粒度时间对齐的人工标注长视频摘要基准，包含 13 个领域的 72 个视频（平均时长…</p>
+    </article></div>
+    </section>
+    <section class="block glass" id="sec-tip" data-spy>
+      <div class="block-head">
+        <h2><span class="ico">💡</span>技巧与观点</h2>
+        <span class="cnt">5 条</span>
+      </div>
+      <div class="grid">
+    <article class="card" id="item-18">
+      <div class="card-top"><span class="num">18</span><span class="chips"><span class="chip">公众号：数字生命卡兹克</span></span></div>
+      <h3 class="card-title"><a href="https://mp.weixin.qq.com/s/EeHjsju08ARLbwtwFcViqg" target="_blank" rel="noopener noreferrer">不会代码也能做产品：一份从0开始的Vibe Coding保姆级教程</a></h3>
+      <p class="card-sum">本文面向零代码用户，提供一套使用国产大模型（Kimi、GLM、Qwen等）从零开发并上线产品的完整流程。核心步骤包括购买…</p>
+    </article>
+    <article class="card" id="item-19">
+      <div class="card-top"><span class="num">19</span><span class="chips"><span class="chip">OpenAI：官网动态（RSS · 排除企业/客户案例）</span></span></div>
+      <h3 class="card-title"><a href="https://openai.com/index/safety-alignment-long-horizon-models" target="_blank" rel="noopener noreferrer">OpenAI 在长时运行模型的安全与对齐实践中发现新型故障并改进评估体系</a></h3>
+      <p class="card-sum">OpenAI 在内部使用一款可自主运行数小时至数周的长时模型时，观察到现有预部署评估未能捕获的新型故障，包括模型持续尝试…</p>
+    </article>
+    <article class="card" id="item-20">
+      <div class="card-top"><span class="num">20</span><span class="chips"><span class="chip">Gary Marcus：The Road to AI We Can Trust（RSS）</span></span></div>
+      <h3 class="card-title"><a href="https://garymarcus.substack.com/p/china-has-all-but-caught-up-the-us" target="_blank" rel="noopener noreferrer">中国AI几乎追平美国，Kimi K3开源模型引发市场震荡</a></h3>
+      <p class="card-sum">中国公司月之暗面（Moonshot.AI）发布Kimi K3模型，性能与最佳美国模型相当，且为开源权重模型，用户可免费下…</p>
+    </article>
+    <article class="card" id="item-21">
+      <div class="card-top"><span class="num">21</span><span class="chips"><span class="chip">Tomer Tunguz 博客（VC 分析）</span></span></div>
+      <h3 class="card-title"><a href="https://www.tomtunguz.com/open-models-tack-toward-the-frontier" target="_blank" rel="noopener noreferrer">开源权重模型逼近前沿，闭源仍领先</a></h3>
+      <p class="card-sum">开源权重模型已多次达到与闭源前沿模型相当的水平，但闭源模型如 GPT-5.2 仍持续创造阶跃式突破。Kimi K3 为 …</p>
+    </article>
+    <article class="card" id="item-22">
+      <div class="card-top"><span class="num">22</span><span class="chips"><span class="chip">Claude：Blog（网页）</span></span></div>
+      <h3 class="card-title"><a href="https://claude.com/blog/working-at-the-frontier-rakuten" target="_blank" rel="noopener noreferrer">乐天用 Claude Fable 5 构建可自主运行数小时的智能体</a></h3>
+      <p class="card-sum">乐天AI业务总经理Yusuke Kaji测试Claude Fable 5后表示，该模型能自主运行更长时间，首次实现夜间无…</p>
+    </article></div>
+    </section>
+      
+    </main>
+  </div>
+
+  <footer class="footer glass">
+    <div class="big">今日 22 条 · 历史累计 50 条</div>
+    <div>数据来源 <a href="https://aihot.virxact.com" target="_blank" rel="noopener noreferrer">aihot.virxact.com</a> · 本页为自动生成的每日 AI 晨报</div>
+  </footer>
+</div>
+<button class="theme-btn theme-fab" id="themeToggle" title="切换浅色 / 深色">🌙</button>
+<script>
+(function(){
+  var root=document.documentElement;
+  var KEY='aihot-theme';
+  var btn=document.getElementById('themeToggle');
+  function sysDark(){return window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;}
+  function apply(t){if(t)root.setAttribute('data-theme',t);else root.removeAttribute('data-theme');}
+  function icon(t){if(btn)btn.textContent=(t==='dark')?'☀️':'🌙';}
+  var saved=localStorage.getItem(KEY);
+  apply(saved);
+  icon(saved||(sysDark()?'dark':'light'));
+  if(btn){btn.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme');
+    var next=cur?(cur==='dark'?'light':'dark'):(sysDark()?'light':'dark');
+    apply(next);localStorage.setItem(KEY,next);icon(next);
+  });}
+  if(saved!=='light'&&saved!=='dark'){
+    var mq=window.matchMedia('(prefers-color-scheme: dark)');
+    var onCh=function(e){if(!localStorage.getItem(KEY))icon(e.matches?'dark':'light');};
+    if(mq.addEventListener)mq.addEventListener('change',onCh);
+  }
+  var links=Array.prototype.slice.call(document.querySelectorAll('[data-nav]'));
+  var map={};links.forEach(function(l){map[l.getAttribute('href').slice(1)]=l;});
+  var secs=Array.prototype.slice.call(document.querySelectorAll('section[data-spy]'));
+  if('IntersectionObserver' in window&&secs.length){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){if(e.isIntersecting){links.forEach(function(l){l.classList.remove('active');});var l=map[e.target.id];if(l)l.classList.add('active');}});
+    },{rootMargin:'-45% 0px -50% 0px',threshold:0});
+    secs.forEach(function(s){io.observe(s);});
+  }
+  if(btn){var eff=root.getAttribute('data-theme');btn.textContent=((eff==='dark')||(!eff&&sysDark()))?'☀️':'🌙';}
+})();
+</script>
+
+</body>
+</html>
