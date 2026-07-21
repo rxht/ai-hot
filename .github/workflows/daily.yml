@@ -2,9 +2,7 @@ name: AI HOT Daily Report
 
 on:
   schedule:
-    # 北京时间 09:00 触发（AI HOT 日报约北京时间 08:00 生成）
-    # GitHub Actions cron 使用 UTC，北京时间 = UTC+8，故 09:00 = UTC 01:00
-    - cron: '0 10 * * *'
+    - cron: '0 3 * * *'   # ← 实际是 UTC 03:00 / 北京 11:00
   workflow_dispatch: {}
 
 permissions:
